@@ -37,7 +37,7 @@ var Engine = (function(global) {
 
 	function render() {
 		var background = 'images/wildwest.png';
-		ctx.drawImages(Resources.get(background), 0, 0);
+		ctx.drawImage(Resources.get(background), 0, 0);
 
 		renderEntities();
 	}
