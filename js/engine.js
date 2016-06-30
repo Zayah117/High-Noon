@@ -8,4 +8,53 @@ var Engine = (function(global) {
 	canvas.width = 600;
 	canvas.height = 600;
 	doc.body.appendChild(canvas);
+
+	function main() {
+		var now = Date.now(),
+			dt = (now - lastTime) / 1000.0;
+
+		update(dt);
+		render();
+
+		lastTime = now;
+
+		win.requestAnimationFrame(main);
+	}
+
+	function init() {
+		lastTime = Date.now();
+		main();
+	}
+
+	function update(dt) {
+		updateEntities(dt);
+	}
+
+	function updateEntities(dt) {
+		goodGuy.update();
+		badGuy.update();
+	}
+
+	function render() {
+		var background = 'images/wildwest.png';
+		ctx.drawImages(Resources.get(background), 0, 0);
+
+		renderEntities();
+	}
+
+	function renderEntities() {
+		goodGuy.render();
+		badGuy.render();
+	}
+
+	Resources.load([
+		'images/wildwest.png',
+		'images/good-guy.png',
+		'images/bad-guy.png'
+	]);
+
+	Resources.onReady(init);
+
+	global.ctx = ctx;
+
 })(this);
