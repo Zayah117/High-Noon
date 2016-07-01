@@ -50,7 +50,8 @@ var Engine = (function(global) {
 	Resources.load([
 		'images/wildwest.png',
 		'images/good-guy.png',
-		'images/bad-guy.png'
+		'images/bad-guy.png',
+		'images/bullet.png'
 	]);
 
 	Resources.onReady(init);
