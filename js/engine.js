@@ -31,8 +31,8 @@ var Engine = (function(global) {
 	}
 
 	function updateEntities(dt) {
-		goodGuy.update();
-		badGuy.update();
+		goodGuy.update(dt);
+		badGuy.update(dt);
 	}
 
 	function render() {

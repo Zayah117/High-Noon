@@ -3,6 +3,7 @@ var Cowboy = function(x, y, sprite) {
 	this.y = y;
 	this.minY = 40;
 	this.maxY = 490;
+	this.speed = 3;
 	this.sprite = sprite;
 	this.movingUp = false;
 	this.movingDown = false;
@@ -10,17 +11,18 @@ var Cowboy = function(x, y, sprite) {
 
 Cowboy.prototype.update = function(dt) {
 	if (this.movingUp == true) {
-		this.y -= 3;
+		this.y -= this.speed;
 		if (this.y <= this.minY) {
 			this.y = this.minY;
 		}
 	}
 	if (this.movingDown == true) {
-		this.y += 3;
+		this.y += this.speed;
 		if (this.y >= this.maxY) {
 			this.y = this.maxY;
 		}
 	}
+	console.log(dt);
 };
 
 Cowboy.prototype.render = function() {
