@@ -25,6 +25,18 @@ Cowboy.prototype.update = function(dt) {
 			this.y = this.maxY;
 		}
 	}
+
+	if (this.direction == 'right') {
+		for (var i = 0; i < this.bullets.length; i ++) {
+			this.bullets[i].x += 5;
+		}
+	}
+
+	if (this.direction == 'left') {
+		for (var i = 0; i < this.bullets.length; i ++) {
+			this.bullets[i].x -= 5;
+		}
+	}
 };
 
 Cowboy.prototype.render = function() {
@@ -67,18 +79,25 @@ Cowboy.prototype.keyDown = function(key) {
 };
 
 Cowboy.prototype.shoot = function() {
+	if (this.direction == 'right') {
+		this.bullets[this.round].x = 100;
+		this.bullets[this.round].y = this.y + 22;
+	} else {
+		this.bullets[this.round].x = 500;
+		this.bullets[this.round].y = this.y + 22;
+	}
+
 	if (this.round >= 5) {
 		this.round = 0;
 	} else {
 		this.round += 1;
 	}
-	this.bullets[this.round].y = this.y;
 };
 
 var Bullet = function() {
 	this.sprite = 'images/bullet.png';
-	this.x = 10;
-	this.y = 10;
+	this.x = 0;
+	this.y = -10;
 };
 
 goodGuy = new Cowboy(30, 250, 'images/good-guy.png', 'right');
