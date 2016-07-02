@@ -11,6 +11,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.bullets = [];
 	this.round = 0;
 	this.recoil = Date.now();
+	this.dead = false;
 	this.sprite = sprite;
 	this.movingUp = false;
 	this.movingDown = false;
@@ -99,15 +100,22 @@ Cowboy.prototype.checkCollision = function () {
 	for (i = 0; i < this.bullets.length; i++) {
 		bull = this.bullets[i];
 		
-		if (bull.x < enemy.x + enemy.width && 
+		if (enemy.dead == false && 
+			bull.x < enemy.x + enemy.width && 
 			bull.x + bull.width > enemy.x && 
 			bull.y < enemy.y + enemy.height &&
 			bull.height + bull.y > enemy.y) {
 			console.log("collision detected");
+			enemy.dead = true;
+			enemy.respawn();
 		}
 	}
-}
+};
 
+Cowboy.prototype.respawn = function() {
+	this.y = Math.floor(Math.random() * 530) + 40;
+	this.dead = false;
+};
 // Moves the least recently shot bullet
 // to the cowboys gun
 Cowboy.prototype.shoot = function() {  
