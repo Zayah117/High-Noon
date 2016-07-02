@@ -11,6 +11,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.bullets = [];
 	this.round = 0;
 	this.recoil = Date.now();
+	this.respawnTime = Date.now();
 	this.dead = false;
 	this.sprite = sprite;
 	this.movingUp = false;
@@ -21,13 +22,13 @@ var Cowboy = function(x, y, sprite, direction) {
 // moving, and moves the cowboys' bullets
 Cowboy.prototype.update = function(dt) {
 	// Move cowboy
-	if (this.movingUp == true) {
+	if (this.movingUp == true && this.dead == false) {
 		this.y -= this.speed;
 		if (this.y <= this.minY) {
 			this.y = this.minY;
 		}
 	}
-	if (this.movingDown == true) {
+	if (this.movingDown == true && this.dead == false) {
 		this.y += this.speed;
 		if (this.y >= this.maxY) {
 			this.y = this.maxY;
@@ -49,6 +50,11 @@ Cowboy.prototype.update = function(dt) {
 
 	// Check for collisions
 	this.checkCollision();
+
+	// Work on respawning if dead
+	if (this.dead == true) {
+		this.respawn();
+	}
 };
 
 // Renders cowboy and bullet sprites
@@ -107,21 +113,23 @@ Cowboy.prototype.checkCollision = function () {
 			bull.height + bull.y > enemy.y) {
 			console.log("collision detected");
 			enemy.dead = true;
-			enemy.respawn();
+			enemy.respawnTime = Date.now();
 		}
 	}
 };
 
 Cowboy.prototype.respawn = function() {
-	this.y = Math.floor(Math.random() * 450) + 40;
-	this.dead = false;
+	if (this.dead == true && (Date.now() - this.respawnTime) > 3000) {
+		this.y = Math.floor(Math.random() * 450) + 40;
+		this.dead = false;
+	}
 };
 // Moves the least recently shot bullet
 // to the cowboys gun
 Cowboy.prototype.shoot = function() {  
 	// If it's been more than 700 milliseconds
 	// since cowboy last shot, he may shoot
-	if ((Date.now() - this.recoil) > 400) {
+	if ((Date.now() - this.recoil) > 400 && this.dead == false && this.enemy.dead == false) {
 		// If the cowboy is pointing right move
 		// to that gun, otherwise move to the
 		// other gun
