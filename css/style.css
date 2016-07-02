@@ -6,10 +6,10 @@ h3 {
 	font-family: Impact, Charcoal, sans-serif;
 }
 
-#gScore {
+.g {
 	color: #0000b3;
 }
 
-#bScore {
+.b {
 	color: #b30000;
 }

@@ -28,6 +28,7 @@ var Engine = (function(global) {
 
 	function update(dt) {
 		updateEntities(dt);
+		updateScore();
 	}
 
 	function updateEntities(dt) {
@@ -45,6 +46,11 @@ var Engine = (function(global) {
 	function renderEntities() {
 		goodGuy.render();
 		badGuy.render();
+	}
+
+	function updateScore() {
+		document.getElementById('g-score').innerHTML = 'Good Guy - ' + goodGuy.score;
+		document.getElementById('b-score').innerHTML = 'Bad Guy - ' + badGuy.score;
 	}
 
 	Resources.load([

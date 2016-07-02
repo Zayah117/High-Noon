@@ -16,6 +16,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.sprite = sprite;
 	this.movingUp = false;
 	this.movingDown = false;
+	this.score = 0;
 };
 
 // Checks whether or not the cowboy is
@@ -111,9 +112,9 @@ Cowboy.prototype.checkCollision = function () {
 			bull.x + bull.width > enemy.x && 
 			bull.y < enemy.y + enemy.height &&
 			bull.height + bull.y > enemy.y) {
-			console.log("collision detected");
 			enemy.dead = true;
 			enemy.respawnTime = Date.now();
+			this.score += 1;
 		}
 	}
 };
