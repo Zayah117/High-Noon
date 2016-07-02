@@ -7,12 +7,14 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.speed = 3;
 	this.bullets = [];
 	this.round = 0;
+	this.recoil = Date.now();
 	this.sprite = sprite;
 	this.movingUp = false;
 	this.movingDown = false;
 };
 
 Cowboy.prototype.update = function(dt) {
+	// Move cowboy
 	if (this.movingUp == true) {
 		this.y -= this.speed;
 		if (this.y <= this.minY) {
@@ -26,6 +28,7 @@ Cowboy.prototype.update = function(dt) {
 		}
 	}
 
+	// Move bullets
 	if (this.direction == 'right') {
 		for (var i = 0; i < this.bullets.length; i ++) {
 			this.bullets[i].x += 5;
@@ -78,21 +81,31 @@ Cowboy.prototype.keyDown = function(key) {
 	}
 };
 
-Cowboy.prototype.shoot = function() {
-	if (this.direction == 'right') {
-		this.bullets[this.round].x = 100;
-		this.bullets[this.round].y = this.y + 22;
-	} else {
-		this.bullets[this.round].x = 500;
-		this.bullets[this.round].y = this.y + 22;
-	}
+Cowboy.prototype.shoot = function() {  
+	// If it's been more than 700 milliseconds
+	// since cowboy last shot, he may shoot
+	if ((Date.now() - this.recoil) > 700) {
+		if (this.direction == 'right') {
+			this.bullets[this.round].x = 100;
+			this.bullets[this.round].y = this.y + 22;
+		} else {
+			this.bullets[this.round].x = 500;
+			this.bullets[this.round].y = this.y + 22;
+		}
 
-	if (this.round >= 5) {
-		this.round = 0;
-	} else {
-		this.round += 1;
+		if (this.round >= 5) {
+			this.round = 0;
+		} else {
+			this.round += 1;
+		}
+		this.steadyGun();
 	}
 };
+
+// Sets recoil variable to current time
+Cowboy.prototype.steadyGun = function() {
+	this.recoil = Date.now();
+}
 
 var Bullet = function() {
 	this.sprite = 'images/bullet.png';
@@ -108,9 +121,6 @@ for (var i = 0; i < 6; i++) {
 	goodGuy.bullets.push(goodBull);
 	badGuy.bullets.push(badBull);
 }
-
-console.log(goodGuy.bullets);
-console.log(badGuy.bullets);
 
 document.addEventListener('keydown', function(e) {
 	var player1Keys = {
@@ -148,4 +158,5 @@ document.addEventListener('keyup', function(e) {
 		badGuy.keyUp(player2Keys[e.keyCode]);
 	}
 });
+
 
