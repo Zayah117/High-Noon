@@ -5,6 +5,8 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.direction = direction;
 	this.minY = 40;
 	this.maxY = 490;
+	this.width = 70;
+	this.height = 70;
 	this.speed = 3;
 	this.bullets = [];
 	this.round = 0;
@@ -43,6 +45,9 @@ Cowboy.prototype.update = function(dt) {
 			this.bullets[i].x -= 5;
 		}
 	}
+
+	// Check for collisions
+	this.checkCollision();
 };
 
 // Renders cowboy and bullet sprites
@@ -89,6 +94,20 @@ Cowboy.prototype.keyDown = function(key) {
 	}
 };
 
+Cowboy.prototype.checkCollision = function () {
+	enemy = this.enemy;
+	for (i = 0; i < this.bullets.length; i++) {
+		bull = this.bullets[i];
+		
+		if (bull.x < enemy.x + enemy.width && 
+			bull.x + bull.width > enemy.x && 
+			bull.y < enemy.y + enemy.height &&
+			bull.height + bull.y > enemy.y) {
+			console.log("collision detected");
+		}
+	}
+}
+
 // Moves the least recently shot bullet
 // to the cowboys gun
 Cowboy.prototype.shoot = function() {  
@@ -128,11 +147,15 @@ var Bullet = function() {
 	this.sprite = 'images/bullet.png';
 	this.x = 0;
 	this.y = -10;
+	this.width = 4;
+	this.height = 4;
 };
 
 // Set cowboy objects and bullet arrays for each cowboy
 goodGuy = new Cowboy(30, 250, 'images/good-guy.png', 'right');
 badGuy = new Cowboy(500, 250, 'images/bad-guy.png', 'left');
+goodGuy.enemy = badGuy;
+badGuy.enemy = goodGuy;
 for (var i = 0; i < 6; i++) {
 	var goodBull = new Bullet();
 	var badBull = new Bullet();
