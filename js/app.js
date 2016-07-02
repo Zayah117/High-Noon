@@ -113,7 +113,7 @@ Cowboy.prototype.checkCollision = function () {
 };
 
 Cowboy.prototype.respawn = function() {
-	this.y = Math.floor(Math.random() * 530) + 40;
+	this.y = Math.floor(Math.random() * 450) + 40;
 	this.dead = false;
 };
 // Moves the least recently shot bullet
