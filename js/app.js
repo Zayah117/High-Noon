@@ -7,7 +7,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.maxY = 490;
 	this.width = 70;
 	this.height = 70;
-	this.speed = 3;
+	this.speed = 5;
 	this.bullets = [];
 	this.round = 0;
 	this.recoil = Date.now();
@@ -113,7 +113,7 @@ Cowboy.prototype.checkCollision = function () {
 Cowboy.prototype.shoot = function() {  
 	// If it's been more than 700 milliseconds
 	// since cowboy last shot, he may shoot
-	if ((Date.now() - this.recoil) > 700) {
+	if ((Date.now() - this.recoil) > 400) {
 		// If the cowboy is pointing right move
 		// to that gun, otherwise move to the
 		// other gun
