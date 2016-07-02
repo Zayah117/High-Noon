@@ -14,6 +14,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.respawnTime = Date.now();
 	this.dead = false;
 	this.sprite = sprite;
+	this.aliveSprite = sprite;
 	this.movingUp = false;
 	this.movingDown = false;
 	this.score = 0;
@@ -113,6 +114,7 @@ Cowboy.prototype.checkCollision = function () {
 			bull.y < enemy.y + enemy.height &&
 			bull.height + bull.y > enemy.y) {
 			enemy.dead = true;
+			enemy.sprite = 'images/dead.png';
 			enemy.respawnTime = Date.now();
 			this.score += 1;
 		}
@@ -123,6 +125,7 @@ Cowboy.prototype.respawn = function() {
 	if (this.dead == true && (Date.now() - this.respawnTime) > 3000) {
 		this.y = Math.floor(Math.random() * 450) + 40;
 		this.dead = false;
+		this.sprite = this.aliveSprite;
 	}
 };
 // Moves the least recently shot bullet
