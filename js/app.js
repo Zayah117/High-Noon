@@ -1,3 +1,4 @@
+// Main cowboy class
 var Cowboy = function(x, y, sprite, direction) {
 	this.x = x;
 	this.y = y;
@@ -13,6 +14,8 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.movingDown = false;
 };
 
+// Checks whether or not the cowboy is
+// moving, and moves the cowboys' bullets
 Cowboy.prototype.update = function(dt) {
 	// Move cowboy
 	if (this.movingUp == true) {
@@ -28,7 +31,7 @@ Cowboy.prototype.update = function(dt) {
 		}
 	}
 
-	// Move bullets
+	// Move bullets for each cowboy
 	if (this.direction == 'right') {
 		for (var i = 0; i < this.bullets.length; i ++) {
 			this.bullets[i].x += 5;
@@ -42,6 +45,7 @@ Cowboy.prototype.update = function(dt) {
 	}
 };
 
+// Renders cowboy and bullet sprites
 Cowboy.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 	for (i = 0; i < this.bullets.length; i++) {
@@ -49,6 +53,8 @@ Cowboy.prototype.render = function() {
 	}
 };
 
+// Checks to see if the cowboy stops pressing
+// move keys or presses shoot key
 Cowboy.prototype.keyUp = function(key) {
 	upKeys = ['w', 'up'];
 	downKeys = ['s', 'down'];
@@ -67,6 +73,8 @@ Cowboy.prototype.keyUp = function(key) {
 	}
 };
 
+// Checks to see if cowboy is holding down
+// move keys
 Cowboy.prototype.keyDown = function(key) {
 	upKeys = ['w', 'up'];
 	downKeys = ['s', 'down'];
@@ -81,10 +89,15 @@ Cowboy.prototype.keyDown = function(key) {
 	}
 };
 
+// Moves the least recently shot bullet
+// to the cowboys gun
 Cowboy.prototype.shoot = function() {  
 	// If it's been more than 700 milliseconds
 	// since cowboy last shot, he may shoot
 	if ((Date.now() - this.recoil) > 700) {
+		// If the cowboy is pointing right move
+		// to that gun, otherwise move to the
+		// other gun
 		if (this.direction == 'right') {
 			this.bullets[this.round].x = 100;
 			this.bullets[this.round].y = this.y + 22;
@@ -93,11 +106,14 @@ Cowboy.prototype.shoot = function() {
 			this.bullets[this.round].y = this.y + 22;
 		}
 
+		// Cycles through the cowboys' rounds
 		if (this.round >= 5) {
 			this.round = 0;
 		} else {
 			this.round += 1;
 		}
+
+		// Call this function after firing
 		this.steadyGun();
 	}
 };
@@ -107,12 +123,14 @@ Cowboy.prototype.steadyGun = function() {
 	this.recoil = Date.now();
 }
 
+// Bullet class
 var Bullet = function() {
 	this.sprite = 'images/bullet.png';
 	this.x = 0;
 	this.y = -10;
 };
 
+// Set cowboy objects and bullet arrays for each cowboy
 goodGuy = new Cowboy(30, 250, 'images/good-guy.png', 'right');
 badGuy = new Cowboy(500, 250, 'images/bad-guy.png', 'left');
 for (var i = 0; i < 6; i++) {
@@ -122,6 +140,7 @@ for (var i = 0; i < 6; i++) {
 	badGuy.bullets.push(badBull);
 }
 
+// Listen for key presses
 document.addEventListener('keydown', function(e) {
 	var player1Keys = {
 		87: 'w',
