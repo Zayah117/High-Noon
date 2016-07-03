@@ -176,7 +176,7 @@ Cowboy.prototype.shoot = function() {
 	// If it's been more than 700 milliseconds
 	// since cowboy last shot and he has bullets, 
 	// he may shoot
-	if ((Date.now() - this.recoil) > 100 && this.clip > 0 && this.isReloading == false &&
+	if ((Date.now() - this.recoil) > 200 && this.clip > 0 && this.isReloading == false &&
 	 	this.dead == false && this.enemy.dead == false) {
 		// If the cowboy is pointing right move
 		// to that gun, otherwise move to the
