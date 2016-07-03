@@ -10,6 +10,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.speed = 5;
 	this.bullets = [];
 	this.round = 0;
+	this.clip = 6;
 	this.recoil = Date.now();
 	this.respawnTime = Date.now();
 	this.dead = false;
@@ -73,6 +74,7 @@ Cowboy.prototype.keyUp = function(key) {
 	upKeys = ['w', 'up'];
 	downKeys = ['s', 'down'];
 	shootKeys = ['f', 'enter'];
+	reloadKeys = ['r', 'ctrl'];
 	function isInArray(value, array) {
 		return array.indexOf(value) > -1;
 	}
@@ -84,6 +86,9 @@ Cowboy.prototype.keyUp = function(key) {
 	}
 	if (isInArray(key, shootKeys)) {
 		this.shoot();
+	}
+	if (isInArray(key, reloadKeys)) {
+		this.reload();
 	}
 };
 
@@ -132,8 +137,9 @@ Cowboy.prototype.respawn = function() {
 // to the cowboys gun
 Cowboy.prototype.shoot = function() {  
 	// If it's been more than 700 milliseconds
-	// since cowboy last shot, he may shoot
-	if ((Date.now() - this.recoil) > 400 && this.dead == false && this.enemy.dead == false) {
+	// since cowboy last shot and he has bullets, 
+	// he may shoot
+	if ((Date.now() - this.recoil) > 400 && this.clip > 0 && this.dead == false && this.enemy.dead == false) {
 		// If the cowboy is pointing right move
 		// to that gun, otherwise move to the
 		// other gun
@@ -152,6 +158,8 @@ Cowboy.prototype.shoot = function() {
 			this.round += 1;
 		}
 
+		// A bullet is subtracted from clip
+		this.clip -= 1;
 		// Call this function after firing
 		this.steadyGun();
 	}
@@ -160,6 +168,10 @@ Cowboy.prototype.shoot = function() {
 // Sets recoil variable to current time
 Cowboy.prototype.steadyGun = function() {
 	this.recoil = Date.now();
+}
+
+Cowboy.prototype.reload = function() {
+	this.clip = 6;
 }
 
 // Bullet class
@@ -205,12 +217,14 @@ document.addEventListener('keyup', function(e) {
 	var player1Keys = {
 		87: 'w',
 		83: 's',
-		70: 'f'
+		70: 'f',
+		82: 'r',
 	};
 	var player2Keys = {
 		38: 'up',
 		40: 'down',
-		13: 'enter'
+		13: 'enter',
+		17: 'ctrl'
 
 	};
 	if (player1Keys.hasOwnProperty(e.keyCode)) {
