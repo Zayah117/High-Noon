@@ -87,8 +87,8 @@ Cowboy.prototype.render = function() {
 Cowboy.prototype.keyUp = function(key) {
 	upKeys = ['w', 'up'];
 	downKeys = ['s', 'down'];
-	shootKeys = ['f', 'enter'];
-	reloadKeys = ['r', 'ctrl'];
+	shootKeys = ['d', 'left'];
+	reloadKeys = ['a', 'right'];
 	function isInArray(value, array) {
 		return array.indexOf(value) > -1;
 	}
@@ -235,14 +235,14 @@ document.addEventListener('keyup', function(e) {
 	var player1Keys = {
 		87: 'w',
 		83: 's',
-		70: 'f',
-		82: 'r',
+		68: 'd',
+		65: 'a'
 	};
 	var player2Keys = {
 		38: 'up',
 		40: 'down',
-		13: 'enter',
-		17: 'ctrl'
+		37: 'left',
+		39: 'right'
 
 	};
 	if (player1Keys.hasOwnProperty(e.keyCode)) {
