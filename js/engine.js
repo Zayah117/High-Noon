@@ -34,6 +34,8 @@ var Engine = (function(global) {
 	function updateEntities(dt) {
 		goodGuy.update(dt);
 		badGuy.update(dt);
+		cart1.update(dt);
+		cart2.update(dt);
 	}
 
 	function render() {
@@ -46,6 +48,8 @@ var Engine = (function(global) {
 	function renderEntities() {
 		goodGuy.render();
 		badGuy.render();
+		cart1.render();
+		cart2.render();
 	}
 
 	function updateScore() {
@@ -66,7 +70,9 @@ var Engine = (function(global) {
 		'images/reload3.png',
 		'images/reload4.png',
 		'images/reload5.png',
-		'images/reload6.png'
+		'images/reload6.png',
+		'images/coveredwagon.png',
+		'images/emptywagon.png'
 	]);
 
 	Resources.onReady(init);

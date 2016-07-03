@@ -146,6 +146,20 @@ Cowboy.prototype.checkCollision = function () {
 			enemy.respawnTime = Date.now();
 			this.score += 1;
 		}
+
+		if (bull.x < cart1.x + cart1.width && 
+			bull.x + bull.width > cart1.x && 
+			bull.y < cart1.y + cart1.height &&
+			bull.height + bull.y > cart1.y) {
+			bull.y = -10;
+		}
+
+		if (bull.x < cart2.x + cart2.width && 
+			bull.x + bull.width > cart2.x && 
+			bull.y < cart2.y + cart2.height &&
+			bull.height + bull.y > cart2.y) {
+			bull.y = -10;
+		}
 	}
 };
 
@@ -210,6 +224,36 @@ var Bullet = function() {
 	this.height = 4;
 };
 
+var Cart = function(x, y, sprite, direction) {
+	this.x = x;
+	this.y = y;
+	this.sprite = sprite;
+	this.direction = direction;
+	this.width = 100;
+	this.height = 150;
+};
+
+Cart.prototype.update = function(dt) {
+	if (this.direction == 'up') {
+		if (this.y <= -150) {
+			this.y = Math.floor(Math.random() * 1800) + 600;
+		} else {
+			this.y -= 2;
+		}
+	} else {
+		if (this.y >= 600) {
+			this.y = Math.floor(Math.random() * 1800) - 2400;
+		} else {
+			this.y += 2;
+		}
+	}
+}
+
+// Renders cowboy and bullet sprites
+Cart.prototype.render = function() {
+	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 // Set cowboy objects and bullet arrays for each cowboy
 goodGuy = new Cowboy(30, 250, 'images/good-guy.png', 'right');
 badGuy = new Cowboy(500, 250, 'images/bad-guy.png', 'left');
@@ -221,6 +265,11 @@ for (var i = 0; i < 6; i++) {
 	goodGuy.bullets.push(goodBull);
 	badGuy.bullets.push(badBull);
 }
+
+// Carts
+cart1 = new Cart(200, Math.floor(Math.random() * 1800) - 2400, 'images/coveredwagon.png', 'down');
+cart2 = new Cart(300, Math.floor(Math.random() * 1800) + 600, 'images/emptywagon.png', 'up');
+cartArray = [cart1, cart2];
 
 // Listen for key presses
 document.addEventListener('keydown', function(e) {
