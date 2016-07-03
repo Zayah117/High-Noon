@@ -64,7 +64,7 @@ Cowboy.prototype.update = function(dt) {
 
 	// Work on reload time if currently reloading
 	if (this.isReloading) {
-		if (Date.now() - this.reloadTime >= 3000) {
+		if (Date.now() - this.reloadTime >= 1000) {
 			this.clip = 6;
 			this.isReloading = false;
 		}
@@ -153,7 +153,7 @@ Cowboy.prototype.shoot = function() {
 	// If it's been more than 700 milliseconds
 	// since cowboy last shot and he has bullets, 
 	// he may shoot
-	if ((Date.now() - this.recoil) > 400 && this.clip > 0 && this.isReloading == false &&
+	if ((Date.now() - this.recoil) > 100 && this.clip > 0 && this.isReloading == false &&
 	 	this.dead == false && this.enemy.dead == false) {
 		// If the cowboy is pointing right move
 		// to that gun, otherwise move to the
@@ -186,7 +186,7 @@ Cowboy.prototype.steadyGun = function() {
 };
 
 Cowboy.prototype.reload = function() {
-	if (this.isReloading == false) {
+	if (this.isReloading == false && this.clip < 6) {
 		this.isReloading = true;
 		this.reloadTime = Date.now();
 	}
