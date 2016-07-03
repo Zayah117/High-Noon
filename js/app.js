@@ -12,6 +12,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.round = 0;
 	this.clip = 6;
 	this.isReloading = false;
+	this.reloadTime = Date.now();
 	this.recoil = Date.now();
 	this.respawnTime = Date.now();
 	this.dead = false;
@@ -24,6 +25,7 @@ var Cowboy = function(x, y, sprite, direction) {
 
 // Checks whether or not the cowboy is
 // moving, and moves the cowboys' bullets
+// and handles cowboy reloading
 Cowboy.prototype.update = function(dt) {
 	// Move cowboy
 	if (this.movingUp == true && this.dead == false) {
@@ -59,6 +61,14 @@ Cowboy.prototype.update = function(dt) {
 	if (this.dead == true) {
 		this.respawn();
 	}
+
+	// Work on reload time if currently reloading
+	if (this.isReloading) {
+		if (Date.now() - this.reloadTime >= 3000) {
+			this.clip = 6;
+			this.isReloading = false;
+		}
+	}
 };
 
 // Renders cowboy and bullet sprites
@@ -66,6 +76,9 @@ Cowboy.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 	for (i = 0; i < this.bullets.length; i++) {
 		ctx.drawImage(Resources.get(this.bullets[i].sprite), this.bullets[i].x, this.bullets[i].y);
+	}
+	if (this.isReloading == true) {
+		ctx.drawImage(Resources.get('images/clock.png'), this.x + 22, this.y - 35)
 	}
 };
 
@@ -140,7 +153,8 @@ Cowboy.prototype.shoot = function() {
 	// If it's been more than 700 milliseconds
 	// since cowboy last shot and he has bullets, 
 	// he may shoot
-	if ((Date.now() - this.recoil) > 400 && this.clip > 0 && this.dead == false && this.enemy.dead == false) {
+	if ((Date.now() - this.recoil) > 400 && this.clip > 0 && this.isReloading == false &&
+	 	this.dead == false && this.enemy.dead == false) {
 		// If the cowboy is pointing right move
 		// to that gun, otherwise move to the
 		// other gun
@@ -169,14 +183,14 @@ Cowboy.prototype.shoot = function() {
 // Sets recoil variable to current time
 Cowboy.prototype.steadyGun = function() {
 	this.recoil = Date.now();
-}
+};
 
 Cowboy.prototype.reload = function() {
 	if (this.isReloading == false) {
 		this.isReloading = true;
+		this.reloadTime = Date.now();
 	}
-	this.clip = 6;
-}
+};
 
 // Bullet class
 var Bullet = function() {

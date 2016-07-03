@@ -58,7 +58,8 @@ var Engine = (function(global) {
 		'images/good-guy.png',
 		'images/bad-guy.png',
 		'images/bullet.png',
-		'images/dead.png'
+		'images/dead.png',
+		'images/clock.png'
 	]);
 
 	Resources.onReady(init);
