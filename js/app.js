@@ -133,6 +133,7 @@ Cowboy.prototype.checkCollision = function () {
 			bull.y < enemy.y + enemy.height &&
 			bull.height + bull.y > enemy.y) {
 			enemy.dead = true;
+			enemy.clip = 6;
 			enemy.sprite = 'images/dead.png';
 			enemy.respawnTime = Date.now();
 			this.score += 1;
