@@ -11,6 +11,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.bullets = [];
 	this.round = 0;
 	this.clip = 6;
+	this.isReloading = false;
 	this.recoil = Date.now();
 	this.respawnTime = Date.now();
 	this.dead = false;
@@ -171,6 +172,9 @@ Cowboy.prototype.steadyGun = function() {
 }
 
 Cowboy.prototype.reload = function() {
+	if (this.isReloading == false) {
+		this.isReloading = true;
+	}
 	this.clip = 6;
 }
 
