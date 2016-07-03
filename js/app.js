@@ -64,9 +64,17 @@ Cowboy.prototype.update = function(dt) {
 
 	// Work on reload time if currently reloading
 	if (this.isReloading) {
-		if (Date.now() - this.reloadTime >= 1000) {
-			this.clip = 6;
-			this.isReloading = false;
+		if (Date.now() - this.reloadTime >= 200) {
+			this.reloadTime = Date.now();
+			this.clip += 1;
+
+			// Wait till you have seven bullets then minus one
+			// I want the clips to have 6 bullets but this is
+			// for extra reload time
+			if (this.clip >= 7) {
+				this.clip -= 1;
+				this.isReloading = false;
+			}
 		}
 	}
 };
@@ -78,7 +86,7 @@ Cowboy.prototype.render = function() {
 		ctx.drawImage(Resources.get(this.bullets[i].sprite), this.bullets[i].x, this.bullets[i].y);
 	}
 	if (this.isReloading == true) {
-		ctx.drawImage(Resources.get('images/clock.png'), this.x + 22, this.y - 35)
+		ctx.drawImage(Resources.get('images/reload' + this.clip + '.png'), this.x + 5, this.y - 25)
 	}
 };
 

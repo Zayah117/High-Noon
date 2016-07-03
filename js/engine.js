@@ -59,7 +59,14 @@ var Engine = (function(global) {
 		'images/bad-guy.png',
 		'images/bullet.png',
 		'images/dead.png',
-		'images/clock.png'
+		'images/clock.png',
+		'images/reload0.png',
+		'images/reload1.png',
+		'images/reload2.png',
+		'images/reload3.png',
+		'images/reload4.png',
+		'images/reload5.png',
+		'images/reload6.png'
 	]);
 
 	Resources.onReady(init);
