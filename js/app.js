@@ -7,7 +7,7 @@ var Cowboy = function(x, y, sprite, direction) {
 	this.maxY = 490;
 	this.width = 70;
 	this.height = 70;
-	this.speed = 5;
+	this.speed = 300;
 	this.bullets = [];
 	this.round = 0;
 	this.clip = 6;
@@ -29,13 +29,13 @@ var Cowboy = function(x, y, sprite, direction) {
 Cowboy.prototype.update = function(dt) {
 	// Move cowboy
 	if (this.movingUp == true && this.dead == false) {
-		this.y -= this.speed;
+		this.y -= Math.round(this.speed * dt);
 		if (this.y <= this.minY) {
 			this.y = this.minY;
 		}
 	}
 	if (this.movingDown == true && this.dead == false) {
-		this.y += this.speed;
+		this.y += Math.round(this.speed * dt);
 		if (this.y >= this.maxY) {
 			this.y = this.maxY;
 		}
@@ -44,13 +44,13 @@ Cowboy.prototype.update = function(dt) {
 	// Move bullets for each cowboy
 	if (this.direction == 'right') {
 		for (var i = 0; i < this.bullets.length; i ++) {
-			this.bullets[i].x += 5;
+			this.bullets[i].x += Math.round(300 * dt);
 		}
 	}
 
 	if (this.direction == 'left') {
 		for (var i = 0; i < this.bullets.length; i ++) {
-			this.bullets[i].x -= 5;
+			this.bullets[i].x -= Math.round(300 * dt);
 		}
 	}
 
@@ -238,13 +238,13 @@ Cart.prototype.update = function(dt) {
 		if (this.y <= -150) {
 			this.y = Math.floor(Math.random() * 1800) + 600;
 		} else {
-			this.y -= 2;
+			this.y -= Math.round(100 * dt);
 		}
 	} else {
 		if (this.y >= 600) {
 			this.y = Math.floor(Math.random() * 1800) - 2400;
 		} else {
-			this.y += 2;
+			this.y += Math.round(100 * dt);
 		}
 	}
 }
