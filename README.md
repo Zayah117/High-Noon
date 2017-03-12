@@ -5,18 +5,12 @@
 
 ### Controls
 
-Player 1
+#### Player 1
+* Move - W/S
+* Shoot - D
+* Reload - A
 
-Move - W/S
-
-Shoot - D
-
-Reload - A
-
-Player 2
-
-Move - Up/Down
-
-Shoot - Left
-
-Reload - Right
+#### Player 2
+* Move - Up/Down
+* Shoot - Left
+* Reload - Right
